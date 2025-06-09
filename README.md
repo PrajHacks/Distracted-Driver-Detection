@@ -9,59 +9,36 @@ Due to the limitations of the available dataset and the challenges of implementi
 ## Modules and Techniques
 
 ### 1. Head Pose Estimation
-- **Technology**: MediaPipe Face Mesh + 3D PnP (Perspective-n-Point)
-- **Logic**:
-  - Uses six key facial landmarks (nose tip, eyes, mouth corners, chin)
-  - Solves PnP with a camera matrix to estimate pitch, yaw, and roll
-- **Purpose**: Determine head orientation (e.g., looking down or sideways)
+- **Technology**: MediaPipe Face Mesh + 3D PnP
+- **Purpose**: Detect head orientation (e.g., looking down or sideways)
 
 ### 2. Drowsiness Detection
 - **Technology**: MediaPipe Face Mesh
-- **Logic**:
-  - Calculates Eye Aspect Ratio (EAR)
-  - EAR below a threshold for several consecutive frames indicates drowsiness
-- **Purpose**: Detect fatigue or micro-sleep events
+- **Purpose**: Identify fatigue or micro-sleep events based on Eye Aspect Ratio (EAR)
 
 ### 3. Yawning Detection
 - **Technology**: MediaPipe Face Mesh
-- **Logic**:
-  - Calculates Mouth Opening Ratio (MOR)
-  - Sustained high MOR indicates yawning
-- **Purpose**: Identify signs of sleepiness
+- **Purpose**: Detect sustained mouth opening as a sign of sleepiness
 
 ### 4. Eating Detection
-- **Technology**: YOLOv8 and MediaPipe Hands
-- **Logic**:
-  - Detects food or bottle in hand
-  - Hand movement towards the mouth along with object presence indicates eating
-- **Purpose**: Detect distraction due to eating
+- **Technology**: YOLOv8 + MediaPipe Hands
+- **Purpose**: Detect eating gestures using object and hand proximity
 
 ### 5. Drinking Detection
-- **Technology**: YOLOv8 and MediaPipe Hands
-- **Logic**:
-  - Bottle or cup detected near mouth
-  - Hand proximity confirms drinking action
-- **Purpose**: Detect drinking while driving
+- **Technology**: YOLOv8 + MediaPipe Hands
+- **Purpose**: Detect if a person is drinking while driving
 
 ### 6. Phone/Calling Detection
-- **Technology**: YOLOv8, MediaPipe Hands, and MediaPipe Pose
-- **Logic**:
-  - Mobile phone detected near head
-  - Hand detected near ear to confirm calling gesture
-- **Purpose**: Identify phone usage while driving
+- **Technology**: YOLOv8 + MediaPipe Hands + Pose
+- **Purpose**: Detect phone usage through object detection and hand-to-ear gesture
 
 ### 7. Gesture and Proximity Analysis
-- **Technology**: MediaPipe Hands and Face
-- **Logic**:
-  - Computes distance between hand tip and mouth or ear
-  - Optionally computes angle between hand and elbow to verify gesture
-- **Purpose**: Assist in classifying behaviors more accurately
+- **Technology**: MediaPipe Hands & Face
+- **Purpose**: Measure distances and angles between hands and key face landmarks
 
 ### 8. Output Layer (GUI and Alerts)
 - **Technology**: OpenCV
-- **Logic**:
-  - Real-time visualization with bounding boxes and alerts
-  - Visual feedback for debugging and validation
+- **Purpose**: Real-time feedback using visual overlays and alerts
 
 ---
 
@@ -76,17 +53,29 @@ Due to the limitations of the available dataset and the challenges of implementi
 
 ---
 
-## Limitations
-
-- The dataset used was limited in terms of diversity and real-world applicability.
-- A single-model solution was not sufficient for dynamic driver behavior recognition.
-- To address this, we incorporated multiple specialized models and techniques.
-
----
-
 ## How to Run
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/Distracted-Driver-Detection.git
    cd Distracted-Driver-Detection
+Install the dependencies:
+
+
+To run all components together, use:
+
+python main2.py
+Note: Running all modules simultaneously may cause lag or performance issues due to high computational load.
+
+To test individual components (recommended for analysis or debugging), run the specific files like:
+
+python head_position.py
+python EAT_DRINK.py
+# and so on...
+Limitations
+The dataset used was limited and not suitable for generalizing across all real-world scenarios.
+
+Single-model solutions were insufficient, so we used a modular approach combining YOLO, MediaPipe, and OpenCV.
+
+Real-time performance may be affected when multiple modules run together.
+
